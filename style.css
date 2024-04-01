@@ -1,110 +1,108 @@
-body{
+body {
     margin: 0px;
     padding: 0px;
     background-color: #EDF8FF;
     /* Default font */
-    font-family: 'Microsoft JhengHei'; 
+    font-family: 'Microsoft JhengHei';
     /* font-family: "Noto Sans HK", sans-serif; */
 }
 
-.color{
+.color {
     color: #EDF8FF;
 }
 
+
 /* NAV BAR */
 
-.home-nav{
+.home-nav {
     position: fixed;
     padding: 20px 0px;
     width: 100vw;
     height: 30px;
-    
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: transparent;
 }
 
-.home-nav-name{
+.home-nav-name {
     letter-spacing: 10px;
     font-size: 20px;
-    
     margin-left: 40px;
 }
-.home-nav-links{
+
+.home-nav-links {
     text-decoration: none;
     list-style: none;
     width: 300px;
     margin-right: 30px;
-    
-    
     display: flex;
     justify-content: space-around;
 }
-.nav-links-icon{
+
+.nav-links-icon {
     width: 20px;
     height: 20px;
 }
 
+
 /* BOT BRAND */
 
-.bottom{
+.bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
-
     padding: 30px 0px;
     width: 100vw;
-
     position: fixed;
     top: calc(100vh - 121px);
 }
 
-.copyright{
+.copyright {
     margin: 10px 0px 0px 0px;
     font-size: 12px;
     font-family: "EB Garamond", serif;
 }
 
-.brand-list{
-    width: 220px;
-    
-    display: flex;
-    justify-content: space-between;
-
+.transition-gradient {
+    height: 30vh;
+    width: 100vw;
+    background-image: linear-gradient(180deg, #A0D2E1, #EDF8FF);
 }
 
-.brand-icon{
+.brand-list {
+    width: 220px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.brand-icon {
     width: 30px;
     height: 30px;
 }
 
-
-
-
-.hero1{
+.hero1 {
     padding-top: 70px;
     padding-bottom: 121px;
     height: calc(100vh - 70px - 121px);
-    background-image: linear-gradient(180deg, #F6A686 17%,#F8ECD6 37.5%, #A0D2E1 60%);  
-
+    background-image: linear-gradient(180deg, #F6A686 100px, #F8ECD6 calc(110px + 13vh), #A0D2E1 calc(70px + 150px + 15vh));
     display: flex;
-    flex-direction: column;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
     align-items: center;
-    justify-content: center;
-
     color: #EDF8FF;
 }
 
-.hero1-logo{
+.hero1-logo {
     margin-bottom: 50px;
+    margin-top: 13vh;
 }
 
-.hero1-name{
+.hero1-name {
     text-align: center;
 }
 
-.hero-name-ch{
+.hero-name-ch {
     text-align: center;
     letter-spacing: 30px;
     margin-left: 30px;
@@ -112,11 +110,15 @@ body{
     margin-top: 0px;
     margin-bottom: 0px;
 }
-.hero-name-en{
+
+.hero-name-en {
     font-family: "EB Garamond", serif;
     letter-spacing: 15px;
-    margin-left:15px;
+    margin-left: 15px;
     margin-top: 0px;
     margin-bottom: 0px;
-    
+}
+
+.hero2 {
+    height: calc(100vh - 70px - 120px);
 }
