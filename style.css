@@ -12,11 +12,21 @@ light: #F8ECD6
 
 */
 
+:root{
+    --word-light: #F3FBFF ;
+    --word-dark: #6997B1;
+    --light-bg: #EAFAFF ;
+    --dark-bg: #A1D3E1 ;
+    --dark-bg-alpha: #A1D3E1D2 ;
+    --orgran: #F6A686 ;
+    --light: #F8ECD6 ;
+}
+
 
 body {
     margin: 0px;
     padding: 0px;
-    background-color: #EAFAFF;
+    background-color: var(--light-bg);
     /* Default font */
     font-family: 'Microsoft JhengHei';
     /* font-family: "Noto Sans HK", sans-serif; */
@@ -29,11 +39,11 @@ svg {
 }
 
 .color-light {
-    color: #F3FBFF;
+    color: var(--word-light);
 }
 
 .color-dark {
-    color: #6997B1;
+    color: var(--word-dark);
 }
 
 @keyframes fadeInUP {
@@ -161,7 +171,7 @@ svg {
 .transition-gradient {
     height: 20vh;
     width: 100vw;
-    background-image: linear-gradient(180deg, #A0D2E1, #EAFAFF);
+    background-image: linear-gradient(180deg, var(--dark-bg), var(--light-bg));
 }
 
 .brand-list {
@@ -193,12 +203,12 @@ svg {
     padding-top: 70px;
     padding-bottom: 121px;
     height: calc(100vh - 70px - 121px);
-    background-image: linear-gradient(180deg, #F6A686 100px, #F8ECD6 calc(110px + 13vh), #A0D2E1 calc(70px + 150px + 15vh));
+    background-image: linear-gradient(180deg, var(--orgran) 100px, var(--light) calc(110px + 13vh), var(--dark-bg) calc(70px + 150px + 15vh));
     display: flex;
     flex-flow: column nowrap;
     justify-content: flex-start;
     align-items: center;
-    color: #F3FBFF;
+    color: var(--word-light);
 }
 
 .hero1-logo {
@@ -237,7 +247,7 @@ svg {
     height: 100vh;
     width: 100%;
 
-    color: #6997B1;
+    color: var(--word-dark);
 
     display: flex;
     flex-flow: column wrap;
@@ -260,7 +270,7 @@ svg {
     min-width: 200px;
     margin-top: 30px;
 
-    box-shadow: 0 0 30px 15px #A1D3E1D2;
+    box-shadow: 0 0 30px 15px var(--dark-bg-alpha);
     
     opacity: 0;
 }
