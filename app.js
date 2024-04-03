@@ -9,6 +9,8 @@ const nav = document.querySelector('.home-nav')
 const navIcon = document.querySelectorAll('.nav-links-icon')
 const bottom = document.querySelector('.bottom')
 const brandIcon = document.querySelectorAll('.brand-icon')
+const hero2Text = document.querySelector('.hero2-text')
+const hero2Img = document.querySelector('.hero2-img')
 
 
 function dark2light(target) {
@@ -32,7 +34,8 @@ const observer_TOP = new IntersectionObserver((es) => {
             console.log("hero1 OUT!")
             light2dark(nav)
             navIcon.forEach(light2dark)
-            hero2.classList.add('fade-in-UP')
+            hero2Text.classList.add('fade-in-UP')
+            hero2Img.classList.add('fade-in-UP-delay')
         }
     })
 })
