@@ -5,7 +5,7 @@ const hero1 = document.querySelector('.hero1')
 const hero2 = document.querySelector('.hero2')
 
 // Change color target
-const nav = document.querySelector('.home-nav')
+const nav = document.querySelector('.nav')
 const navIcon = document.querySelectorAll('.nav-links-icon')
 const bottom = document.querySelector('.bottom')
 const brandIcon = document.querySelectorAll('.brand-icon')

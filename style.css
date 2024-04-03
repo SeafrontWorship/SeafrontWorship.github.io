@@ -90,9 +90,26 @@ svg {
     animation-timing-function: ease-out;
 }
 
-/* NAV BAR */
+/* Normal NAV Bar style (Using ID) */
+#nav-name {
+    color: var(--word-dark);
+}
 
-.home-nav {
+#nav-links-icon {
+    color: var(--word-dark);
+}
+
+#home-nav {
+    background-color: transparent;
+}
+
+#normal-nav {
+    background-color: var(--light-bg);
+}
+
+/* HOME NAV BAR */
+
+.nav {
     position: fixed;
     padding: 20px 0px;
     width: 100vw;
@@ -100,7 +117,6 @@ svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: transparent;
 }
 
 .home-nav-name {
@@ -147,6 +163,7 @@ svg {
         transition: color 0.8s ease;
     }
 }
+
 
 /* BOT BRAND */
 
