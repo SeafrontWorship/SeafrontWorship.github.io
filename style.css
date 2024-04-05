@@ -145,8 +145,8 @@ svg {
 }
 
 @media (max-width: 480px){
-    .home-nav {
-        flex-direction: column-reverse;
+    .nav {
+        justify-content: center;
         padding-top: 30px;
     }
     .home-nav-name {
