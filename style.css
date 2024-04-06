@@ -91,24 +91,6 @@ svg {
 }
 
 /* Normal NAV Bar style (Using ID) */
-#nav-name {
-    color: var(--word-dark);
-}
-
-#nav-links-icon {
-    color: var(--word-dark);
-}
-
-#home-nav {
-    background-color: transparent;
-}
-
-#normal-nav {
-    background-color: var(--light-bg);
-}
-
-/* HOME NAV BAR */
-
 .nav {
     position: fixed;
     padding: 20px 0px;
@@ -117,6 +99,28 @@ svg {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+#normal-nav {
+    background-color: var(--light-bg);
+}
+
+#nav-name {
+    color: var(--word-dark);
+}
+
+#nav-links-icon {
+    color: var(--word-dark);
+}
+
+#normal-nav {
+    background-color: var(--light-bg);
+}
+
+/* HOME NAV BAR */
+
+#home-nav {
+    background-color: transparent;
 }
 
 .home-nav-name {
@@ -312,4 +316,11 @@ svg {
 
 .inactive:hover {
     opacity: 1;
+}
+
+/* Music page canvas */
+#music-canvsa {
+    /* height: 100%;
+    width: 100%; */
+    margin-top: 50px;
 }
