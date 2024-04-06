@@ -12,6 +12,10 @@ light: #F8ECD6
 
 */
 
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --word-light: #F3FBFF;
     --word-dark: #6997B1;
@@ -20,6 +24,15 @@ light: #F8ECD6
     --dark-bg-alpha: #A1D3E1D2;
     --orgran: #F6A686;
     --light: #F8ECD6;
+
+    --nav-height: 70px;
+
+    --phone-break-point: 530px;
+
+    --en-font: "EB Garamond", serif;
+    --ch-font: 'Microsoft JhengHei';
+
+    --max-section-width: 900px
 }
 
 body {
@@ -27,7 +40,7 @@ body {
     padding: 0px;
     background-color: var(--light-bg);
     /* Default font */
-    font-family: 'Microsoft JhengHei';
+    font-family: var(--ch-font);
     /* font-family: "Noto Sans HK", sans-serif; */
 }
 
@@ -97,7 +110,7 @@ svg {
     position: fixed;
     padding: 20px 0px;
     width: 100vw;
-    height: 30px;
+    height: var(--nav-height);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -152,7 +165,7 @@ svg {
     transition: color 0.8s ease;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 530px) {
     .nav {
         justify-content: center;
         padding-top: 30px;
@@ -187,7 +200,7 @@ svg {
 .copyright {
     margin: 10px 0px 0px 0px;
     font-size: 12px;
-    font-family: "EB Garamond", serif;
+    font-family: var(--en-font);
     transition: color 0.8s ease-out;
 }
 
@@ -222,9 +235,9 @@ svg {
 }
 
 .hero1 {
-    padding-top: 70px;
+    padding-top: var(--nav-height);
     padding-bottom: 121px;
-    height: calc(100vh - 70px - 121px);
+    height: 100vh;
     background-image: linear-gradient(180deg, var(--orgran) 100px, var(--light) calc(110px + 13vh), var(--dark-bg) calc(70px + 150px + 15vh));
     display: flex;
     flex-flow: column nowrap;
@@ -251,14 +264,14 @@ svg {
 }
 
 .hero-name-en {
-    font-family: "EB Garamond", serif;
+    font-family: var(--en-font);
     letter-spacing: 15px;
     margin-left: 15px;
     margin-top: 0px;
     margin-bottom: 0px;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 530px) {
     .hero-name-en {
         letter-spacing: 10px;
         margin-left: 10px
@@ -292,7 +305,7 @@ svg {
     opacity: 0;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 530px) {
     .hero2-text {
         letter-spacing: 7px;
         margin-left: 7px;
@@ -312,4 +325,118 @@ svg {
 
 .inactive:hover {
     opacity: 1;
+}
+
+/* About Layout */
+
+#about-top {
+    padding-top: var(--nav-height);
+    /* margin-bottom: 10px; */
+    height: 500px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+
+    color: var(--word-dark);
+}
+
+#about-top::after {
+    content: '';
+    width: 70vw;
+    max-width: calc(var(--max-section-width) - 40px);
+    margin-top:70px;
+    margin-bottom:70px;
+    border-top: 2px solid var(--word-dark) ;
+}
+
+#ch-name {
+     font-size: 2rem;
+     letter-spacing: 2rem;
+     margin-left: 2rem;
+     margin-top: 30px;
+}
+
+#eg-name {
+    font-size: 1.2rem;
+    letter-spacing: 0.5rem;
+    margin-left: 0.5rem;
+    margin-top: 5px;
+
+    font-family: var(--en-font);
+}
+
+#since {
+    font-size: 0.8rem;
+    letter-spacing: 0.3rem;
+    margin-left: 0.3rem;
+    margin-top: 5px;
+    font-family: var(--en-font);
+}
+
+.section-block {
+    max-width: var(--max-section-width);
+    width: 100%;
+    margin: auto;
+    padding: 20px 0px;
+
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.section-block:nth-child(even) {
+    max-width: var(--max-section-width);
+    width: 100%;
+    margin: auto;
+    padding: 20px 0px;
+
+    display: flex;
+    flex-flow: row-reverse wrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.text-part{
+    width: 50%;
+    padding-left: 20px;
+
+    /* display: flex;
+    flex-direction: column;
+    align-items: flex-start; */
+
+    color: var(--word-dark);
+}
+
+.ch-title {
+    font-size: 25px;
+    letter-spacing: 20px;
+    font-family: var(--ch-font);
+}
+
+.eg-title {
+    font-size: 15px;
+    letter-spacing: 10px;
+    font-family: var(--ch-font);
+
+    padding-left: 3px;
+}
+.text-content {
+    margin-top: 50px;
+}
+
+.img-part-R{
+    width: 50%;
+    height: 400px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.img-part-L{
+    width: 50%;
+    height: 400px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
