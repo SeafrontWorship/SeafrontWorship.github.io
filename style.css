@@ -118,6 +118,7 @@ svg {
 
 #normal-nav {
     background-color: var(--light-bg);
+    z-index: 999;
 }
 
 #nav-name {
@@ -426,17 +427,35 @@ svg {
     margin-top: 50px;
 }
 
+/* Option 1: Just image */
 .img-part-R{
     width: 50%;
     height: 400px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
 }
 .img-part-L{
     width: 50%;
     height: 400px;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
 }
+
+.image{
+    height: 250px;
+    opacity: 0.8;
+    box-shadow: 0 0 30px 15px var(--dark-bg-alpha);
+    border-radius: 15px;
+}
+
+/* Option 2: with Gradient */
+/* #about-img {
+    background-image: linear-gradient(to right,var(--light-bg), rgba(0, 0, 0, 0) 600px),
+    url('img/seafront_gp_photo.jpg');
+    background-size: cover;
+    background-position: center;
+    width: 50%;
+    height: 400px;
+} */
