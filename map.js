@@ -143,9 +143,11 @@ function animate() {
     bg.draw()
 }
 
-// event listen to make mousedown and up
-window.addEventListener('mousedown', (e) => {
+function mouseDown_handler (e) {
     mouse.pressed = true
+    if (e.clientX == null || e.clientY == null) {
+        console.log('sor bro, cant work TT')
+    }
     mouse.pres_pos = {
         x: e.clientX,
         y: e.clientY - NAV_HEIGHT
@@ -153,21 +155,21 @@ window.addEventListener('mousedown', (e) => {
     mouse.curr_pos = mouse.pres_pos
     console.log("screen vs world", mouse.curr_pos, bg.screen2world(mouse.curr_pos))
     console.log("background", bg.position, bg.scale)
-})
+}
 
-window.addEventListener('mouseup', (e) => {
+function mouseUp_handler () {
     mouse.pressed = false
-        // console.log(mouse.pressed)
-})
+    // console.log(mouse.pressed)
+}
 
-onmousemove = function(e) {
+function mouseMove_handler (e) {
     mouse.curr_pos = {
         x: e.clientX,
         y: e.clientY - NAV_HEIGHT
     }
 }
 
-window.addEventListener("wheel", (e) => {
+function scroll_handler (e) {
     mouse.scrolling = true
     mouse.curr_pos = {
         x: e.clientX,
@@ -180,7 +182,18 @@ window.addEventListener("wheel", (e) => {
         mouse.zoomIn = true
         console.log("ZoomIn")
     }
-})
+}
+
+// event listen to mouse user
+window.addEventListener('mousedown', mouseDown_handler)
+window.addEventListener('mousemove', mouseMove_handler)
+window.addEventListener('mouseup', mouseUp_handler)
+window.addEventListener("wheel", scroll_handler)
+
+//event listener to touch event
+window.addEventListener('touchstart', mouseDown_handler)
+window.addEventListener('touchmove', mouseMove_handler)
+window.addEventListener('touchend',  mouseUp_handler)
 
 //start animate loop
 animate()
