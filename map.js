@@ -44,6 +44,14 @@ class Mouse {
         this.scrolling = false
         this.zoomIn = false
         this.zoomOut = false
+        this.scale = 1          // scale value for touch zooms
+    }
+}
+
+class Touches {
+    constructor({position, id}) {
+        this.id = id
+        this.position = position 
     }
 }
 
@@ -145,9 +153,6 @@ function animate() {
 
 function mouseDown_handler (e) {
     mouse.pressed = true
-    if (e.clientX == null || e.clientY == null) {
-        console.log('sor bro, cant work TT')
-    }
     mouse.pres_pos = {
         x: e.clientX,
         y: e.clientY - NAV_HEIGHT
@@ -185,15 +190,23 @@ function scroll_handler (e) {
 }
 
 // event listen to mouse user
-window.addEventListener('mousedown', mouseDown_handler)
-window.addEventListener('mousemove', mouseMove_handler)
-window.addEventListener('mouseup', mouseUp_handler)
-window.addEventListener("wheel", scroll_handler)
+// window.addEventListener('mousedown', mouseDown_handler)
+// window.addEventListener('mousemove', mouseMove_handler)
+// window.addEventListener('mouseup', mouseUp_handler)
 
-//event listener to touch event
-window.addEventListener('touchstart', mouseDown_handler)
-window.addEventListener('touchmove', mouseMove_handler)
-window.addEventListener('touchend',  mouseUp_handler)
+//event listener to pointer event
+// window.addEventListener('pointerdown', mouseDown_handler)
+canvas.addEventListener('pointerdown', (e) => {
+    console.log(e.pointerType)
+    if (e.pointerType == "mouse") {
+        mouseDown_handler(e)
+    } else {
+
+    }
+})
+canvas.addEventListener('pointermove', mouseMove_handler)
+canvas.addEventListener('pointerup', mouseUp_handler)
+canvas.addEventListener("wheel", scroll_handler)
 
 //start animate loop
 animate()
