@@ -102,7 +102,7 @@ class Touch {
 class Touches {
     constructor() {
         this.touches_list = []
-        this.midPoint = {}
+        this.midPoint = { x: 0, y: 0 }
         this.init_distance = 0
         this.touch_scale = 1
         this.touch_zooming = false
@@ -223,20 +223,25 @@ function animate() {
     }
 
     if (touches.touch_zooming) {
-        var mouse_beforeZoom = bg.screen2world(Math.round(touches.midPoint))
+        // console.log(touches.midPoint)
+        var mouse_beforeZoom = bg.screen2world(touches.midPoint)
 
         bg.scale *= touches.touch_scale
         bg.scale = Math.max(Math.min(bg.scale, SCALE_MAX), SCALE_MIN)
 
-        console.log(bg.scale)
+        var mouse_afterZoom = bg.screen2world(touches.midPoint)
 
-        var mouse_afterZoom = bg.screen2world(Math.round(touches.midPoint))
 
-        console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
+        let dx = mouse_afterZoom.x - mouse_beforeZoom.x,
+            dy = mouse_afterZoom.y - mouse_beforeZoom.y
+            // console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
+            // console.log("dx, dy", dx, dy)
 
-        // bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale;
-        // bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale;
+        // wtf this two line make midpoints NaN
+        bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale;
+        bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale;
 
+        console.log(bg.position)
         touches.touch_zooming = false
     }
 
@@ -307,6 +312,7 @@ canvas.addEventListener('pointerdown', (e) => {
             // console.log(touches.init_distance)
 
             // enable zoom!
+            touches.update_midPoint();
             touches.touch_zooming = true
         }
     }
@@ -325,8 +331,6 @@ canvas.addEventListener('pointermove', (e) => {
 
         touches.update_midPoint()
         touches.touch_zooming = true
-
-        console.log("midPoint: ", touches.midPoint)
     }
 })
 
