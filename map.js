@@ -103,7 +103,9 @@ class Touches {
     constructor() {
         this.touches_list = []
         this.midPoint = { x: 0, y: 0 }
-        this.init_distance = 0
+        this.last_midPoint = this.midPoint
+        this.distance = 0
+        this.last_distance = 0
         this.touch_scale = 1
         this.touch_zooming = false
     }
@@ -111,18 +113,43 @@ class Touches {
     //update the mid-point in this. only returns true when 2 touches present.
     update_midPoint() {
         if (touches.touches_list.length == 2) {
+            // remember old mid-point
+            this.last_midPoint = {
+                x: this.midPoint.x,
+                y: this.midPoint.y
+            }
+
+            console.log("last mid-point", this.last_midPoint)
+
+            //update new mid-point
             this.midPoint = {
-                x: (this.touches_list[0].position.x + this.touches_list[0].position.x) / 2,
+                x: (this.touches_list[0].position.x + this.touches_list[1].position.x) / 2,
                 y: (this.touches_list[0].position.y + this.touches_list[1].position.y) / 2
             }
 
-            // console.log(this.midPoint)
+            console.log("new mid-point", this.midPoint)
             return true
         } else return false
     }
 
+    update_distance() {
+        if (touches.touches_list.length == 2) {
+            this.last_distance = this.distance
+
+            console.log("last distance", this.last_distance)
+
+            this.distance = this.distanceBy2Pnt(touches.touches_list[0].position, this.touches_list[1].position)
+            console.log("new distance", this.distance)
+        }
+    }
+
+    getScale() {
+        this.touch_scale = this.distance / this.last_distance
+        console.log(this.touch_scale)
+    }
+
     // return a distance of 2 given points p1, p2
-    distance(p1, p2) {
+    distanceBy2Pnt(p1, p2) {
         let dx = p2.x - p1.x,
             dy = p2.y - p1.y;
         return Math.sqrt(dx * dx + dy * dy);
@@ -231,17 +258,14 @@ function animate() {
 
         var mouse_afterZoom = bg.screen2world(touches.midPoint)
 
-
-        let dx = mouse_afterZoom.x - mouse_beforeZoom.x,
-            dy = mouse_afterZoom.y - mouse_beforeZoom.y
-            // console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
-            // console.log("dx, dy", dx, dy)
-
         // wtf this two line make midpoints NaN
-        bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale;
-        bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale;
+        bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale
+        bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale
 
-        console.log(bg.position)
+        bg.position.x += touches.midPoint.x - touches.last_midPoint.x
+        bg.position.y += touches.midPoint.y - touches.last_midPoint.y
+
+        // console.log(bg.position)
         touches.touch_zooming = false
     }
 
@@ -307,13 +331,8 @@ canvas.addEventListener('pointerdown', (e) => {
         if (touches.touches_list.length == 1) {
             mouseDown_handler(e)
         } else if (touches.touches_list.length == 2) {
-            touches.init_distance = touches.distance(touches.touches_list[0].position, touches.touches_list[1].position)
-
-            // console.log(touches.init_distance)
-
-            // enable zoom!
+            touches.update_distance();
             touches.update_midPoint();
-            touches.touch_zooming = true
         }
     }
 })
@@ -324,11 +343,8 @@ canvas.addEventListener('pointermove', (e) => {
         mouseMove_handler(e)
     } else if (touches.touches_list.length == 2) {
         touches.updateTouchPositionById(e.pointerId, { x: e.clientX, y: e.clientY })
-        var curr_distance = touches.distance(touches.touches_list[0].position, touches.touches_list[1].position)
-        touches.touch_scale = curr_distance / touches.init_distance
-
-        touches.init_distance = curr_distance
-
+        touches.update_distance()
+        touches.getScale()
         touches.update_midPoint()
         touches.touch_zooming = true
     }
