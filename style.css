@@ -24,14 +24,10 @@ light: #F8ECD6
     --dark-bg-alpha: #A1D3E1D2;
     --orgran: #F6A686;
     --light: #F8ECD6;
-
     --nav-height: 70px;
-
     --phone-break-point: 530px;
-
     --en-font: "EB Garamond", serif;
     --ch-font: 'Microsoft JhengHei';
-
     --max-section-width: 900px
 }
 
@@ -328,6 +324,7 @@ svg {
     opacity: 1;
 }
 
+
 /* About Layout */
 
 #about-top {
@@ -338,7 +335,6 @@ svg {
     flex-flow: column nowrap;
     justify-content: center;
     align-items: center;
-
     color: var(--word-dark);
 }
 
@@ -346,16 +342,16 @@ svg {
     content: '';
     width: 70vw;
     max-width: calc(var(--max-section-width) - 40px);
-    margin-top:70px;
-    margin-bottom:70px;
-    border-top: 2px solid var(--word-dark) ;
+    margin-top: 70px;
+    margin-bottom: 70px;
+    border-top: 2px solid var(--word-dark);
 }
 
 #ch-name {
-     font-size: 2rem;
-     letter-spacing: 2rem;
-     margin-left: 2rem;
-     margin-top: 30px;
+    font-size: 2rem;
+    letter-spacing: 2rem;
+    margin-left: 2rem;
+    margin-top: 30px;
 }
 
 #eg-name {
@@ -363,7 +359,6 @@ svg {
     letter-spacing: 0.5rem;
     margin-left: 0.5rem;
     margin-top: 5px;
-
     font-family: var(--en-font);
 }
 
@@ -380,7 +375,6 @@ svg {
     width: 100%;
     margin: auto;
     padding: 20px 0px;
-
     display: flex;
     flex-flow: row wrap;
     justify-content: space-between;
@@ -392,22 +386,20 @@ svg {
     width: 100%;
     margin: auto;
     padding: 20px 0px;
-
     display: flex;
     flex-flow: row-reverse wrap;
     justify-content: space-between;
     align-items: center;
 }
 
-.text-part{
+.text-part {
     width: 50%;
     padding-left: 20px;
-
     /* display: flex;
     flex-direction: column;
     align-items: flex-start; */
-
     color: var(--word-dark);
+    text-align: justify;
 }
 
 .ch-title {
@@ -420,22 +412,17 @@ svg {
     font-size: 15px;
     letter-spacing: 10px;
     font-family: var(--ch-font);
-
     padding-left: 3px;
 }
+
 .text-content {
     margin-top: 50px;
 }
 
+
 /* Option 1: Just image */
-.img-part-R{
-    width: 50%;
-    height: 400px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.img-part-L{
+
+.img-part {
     width: 50%;
     height: 400px;
     display: flex;
@@ -443,14 +430,48 @@ svg {
     align-items: center;
 }
 
-.image{
+.image {
     height: 250px;
     opacity: 0.8;
     box-shadow: 0 0 30px 15px var(--dark-bg-alpha);
     border-radius: 15px;
 }
 
+@media (max-width: 530px) {
+    #about-top {
+        padding-top: var(--nav-height);
+        height: 400px;
+    }
+    .section-block {
+        /* padding: 20px 0px; */
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .section-block:nth-child(even) {
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .text-part {
+        width: 90%;
+        padding: 0px;
+    }
+    .img-part {
+        height: 300px;
+        width: 100%;
+    }
+    .image {
+        height: 210px;
+    }
+}
+
+
 /* Option 2: with Gradient */
+
+
 /* #about-img {
     background-image: linear-gradient(to right,var(--light-bg), rgba(0, 0, 0, 0) 600px),
     url('img/seafront_gp_photo.jpg');
