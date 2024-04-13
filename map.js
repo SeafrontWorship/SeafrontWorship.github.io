@@ -4,8 +4,10 @@ const SCALE_MAX = 10
 const SCALE_MIN = 0.1
 const SCALE_FACTOR = 0.1
 const SCALE_DEFAULT = 1
-    // const CANVAS_W = 1024
-    // const CANVAS_H = 576
+
+// const CANVAS_W = 1024
+// const CANVAS_H = 576
+
 const BG_INIT_POSITION_X = 0
 const BG_INIT_POSITION_Y = 0
 
@@ -21,7 +23,9 @@ const NAV_HEIGHT = nav.clientHeight
 //   // Set display size (vw/vh).
 var sizeWidth = window.innerWidth
 var sizeHeight = window.innerHeight - NAV_HEIGHT
-    // console.log(sizeWidth, window.innerHeight, nav.clientHeight)
+
+// console.log(sizeWidth, window.innerHeight, nav.clientHeight)
+
 canvas.width = sizeWidth;
 canvas.height = sizeHeight - 10;
 canvas.style.width = sizeWidth;
@@ -106,12 +110,13 @@ class Touches {
 
     //update the mid-point in this. only returns true when 2 touches present.
     update_midPoint() {
-        if (touches == 2) {
+        if (touches.touches_list.length == 2) {
             this.midPoint = {
-                x: (touches[0].position.x + touches[1].position.x) / 2,
-                y: (touches[0].position.y + touches[1].position.y) / 2
+                x: (this.touches_list[0].position.x + this.touches_list[0].position.x) / 2,
+                y: (this.touches_list[0].position.y + this.touches_list[1].position.y) / 2
             }
-            console.log(this.midPoint)
+
+            // console.log(this.midPoint)
             return true
         } else return false
     }
@@ -142,7 +147,20 @@ class Touches {
     }
 
     clear_touches_list() {
+        this.touches_list = []
+    }
 
+    updateTouchPositionById(id, position) {
+        this.touches_list.forEach((touch) => {
+            if (touch.id == id) {
+                touch.position = {
+                    x: position.x,
+                    y: position.y
+                }
+
+                // console.log("MOVED ID:", touch.id, "position", touch.position)
+            }
+        })
     }
 }
 
@@ -171,10 +189,12 @@ function animate() {
 
     // panning
     if (mouse.pressed) {
+
         // update bg position
         bg.position.x += mouse.curr_pos.x - mouse.pres_pos.x
         bg.position.y += mouse.curr_pos.y - mouse.pres_pos.y
-            // reset pres_pos to cur_pos
+
+        // reset pres_pos to cur_pos
         mouse.pres_pos = mouse.curr_pos
     }
 
@@ -193,12 +213,31 @@ function animate() {
         bg.scale = Math.max(Math.min(bg.scale, SCALE_MAX), SCALE_MIN)
 
         var mouse_afterZoom = bg.screen2world(mouse.curr_pos)
-            // console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
+
+        // console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
 
         bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale;
         bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale;
 
         mouse.scrolling = false
+    }
+
+    if (touches.touch_zooming) {
+        var mouse_beforeZoom = bg.screen2world(Math.round(touches.midPoint))
+
+        bg.scale *= touches.touch_scale
+        bg.scale = Math.max(Math.min(bg.scale, SCALE_MAX), SCALE_MIN)
+
+        console.log(bg.scale)
+
+        var mouse_afterZoom = bg.screen2world(Math.round(touches.midPoint))
+
+        console.log("mouse before and after", mouse_beforeZoom, mouse_afterZoom)
+
+        // bg.position.x += (mouse_afterZoom.x - mouse_beforeZoom.x) * bg.scale;
+        // bg.position.y += (mouse_afterZoom.y - mouse_beforeZoom.y) * bg.scale;
+
+        touches.touch_zooming = false
     }
 
     clean()
@@ -212,13 +251,15 @@ function mouseDown_handler(e) {
         y: e.clientY - NAV_HEIGHT
     }
     mouse.curr_pos = mouse.pres_pos
-    console.log("screen vs world", mouse.curr_pos, bg.screen2world(mouse.curr_pos))
-    console.log("background", bg.position, bg.scale)
+
+    // console.log("screen vs world", mouse.curr_pos, bg.screen2world(mouse.curr_pos))
+    // console.log("background", bg.position, bg.scale)
 }
 
 function mouseUp_handler() {
     mouse.pressed = false
-    console.log(mouse.pressed)
+
+    // console.log(mouse.pressed)
 }
 
 function mouseMove_handler(e) {
@@ -243,64 +284,72 @@ function scroll_handler(e) {
     }
 }
 
-// zoom in when 2 touches are present
-function updateTouch(e) {
-    touches.forEach((touch) => {
-        if (touch.id == e.pointerId) {
-            touch.position = {
-                x: e.clientX,
-                y: e.clientY
-            }
-            console.log("MOVED ID:", touch.id, "position", touch.position)
-        }
-    })
-}
-
-// event listen to mouse user
+// event listen to mouse user (changed to pointers events)
 // window.addEventListener('mousedown', mouseDown_handler)
 // window.addEventListener('mousemove', mouseMove_handler)
 // window.addEventListener('mouseup', mouseUp_handler)
 
-//event listener to pointer event
+// event listener to pointer event
+// Pointer DOWN
 canvas.addEventListener('pointerdown', (e) => {
     if (e.pointerType == "mouse") {
         mouseDown_handler(e)
     } else {
-        console.log("touch Down")
-        addTouch(e)
-        console.log("touches len:", touches.length, touches)
+        touches.addTouch(e)
 
-        if (touches.length == 1) {
+        // console.log("touch Down, touches len:", touches.touches_list.length, touches.touches_list)
+
+        if (touches.touches_list.length == 1) {
             mouseDown_handler(e)
-        } else if (touches.length == 2) {
-            // init_distance = touches[0]+
+        } else if (touches.touches_list.length == 2) {
+            touches.init_distance = touches.distance(touches.touches_list[0].position, touches.touches_list[1].position)
+
+            // console.log(touches.init_distance)
+
+            // enable zoom!
+            touches.touch_zooming = true
         }
     }
 })
+
+// Pointer MOVE
 canvas.addEventListener('pointermove', (e) => {
-    if (e.pointerType == "mouse" || touches.length == 1) {
+    if (e.pointerType == "mouse" || touches.touches_list.length == 1) {
         mouseMove_handler(e)
-    } else if (touches.length == 2) {
-        updateTouch(e)
+    } else if (touches.touches_list.length == 2) {
+        touches.updateTouchPositionById(e.pointerId, { x: e.clientX, y: e.clientY })
+        var curr_distance = touches.distance(touches.touches_list[0].position, touches.touches_list[1].position)
+        touches.touch_scale = curr_distance / touches.init_distance
+
+        touches.init_distance = curr_distance
+
+        touches.update_midPoint()
+        touches.touch_zooming = true
+
+        console.log("midPoint: ", touches.midPoint)
     }
 })
+
+//Pointer UP
 canvas.addEventListener('pointerup', (e) => {
-    if (e.pointerType == "mouse") {
+    // console.log("pointerUp!")
+    // touches.removeById(e.pointerId) // unknow bug: pointer up can't fire sometimes... 
+    touches.clear_touches_list() // cancel all touch once pointer is up
+
+    // console.log("touches len:", touches.touches_list.length, touches)
+
+    if (touches.touches_list.length == 0 || e.pointerType == "mouse") {
         mouseUp_handler(e)
-    } else {
-        console.log("pointerUp!")
-            // removeById(e.pointerId) // unknow bug: pointer up can't fire sometimes... 
-        touches = [] // cancel all touch once pointer is up
-        console.log("touches len:", touches.length, touches)
-    }
-    if (touches.length == 0) {
-        mouseUp_handler()
     }
 })
+
+// Mouse Wheeeel
 canvas.addEventListener("wheel", scroll_handler)
+
+//Pointer CANCLE
 canvas.addEventListener('pointercancle', () => {
     touches = []
-    console.log("CANCEL!!!", touches)
+        // console.log("CANCEL!!!", touches)
 })
 
 //start animate loop
