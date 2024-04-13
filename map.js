@@ -44,16 +44,9 @@ class Mouse {
         this.scrolling = false
         this.zoomIn = false
         this.zoomOut = false
-        this.scale = 1          // scale value for touch zooms
     }
 }
 
-class Touches {
-    constructor({position, id}) {
-        this.id = id
-        this.position = position 
-    }
-}
 
 class Sprite {
     constructor({ position, image_path, scale }) {
@@ -94,6 +87,65 @@ class Sprite {
     }
 }
 
+class Touch {
+    constructor({ position, id }) {
+        this.id = id
+        this.position = position
+    }
+}
+
+// touches related var
+class Touches {
+    constructor() {
+        this.touches_list = []
+        this.midPoint = {}
+        this.init_distance = 0
+        this.touch_scale = 1
+        this.touch_zooming = false
+    }
+
+    //update the mid-point in this. only returns true when 2 touches present.
+    update_midPoint() {
+        if (touches == 2) {
+            this.midPoint = {
+                x: (touches[0].position.x + touches[1].position.x) / 2,
+                y: (touches[0].position.y + touches[1].position.y) / 2
+            }
+            console.log(this.midPoint)
+            return true
+        } else return false
+    }
+
+    // return a distance of 2 given points p1, p2
+    distance(p1, p2) {
+        let dx = p2.x - p1.x,
+            dy = p2.y - p1.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    addTouch(e) {
+        let touch = new Touch({
+            id: e.pointerId,
+            position: {
+                x: e.clientX,
+                y: e.clientY
+            }
+        })
+        this.touches_list.push(touch)
+    }
+
+    removeById(id) {
+        this.touches_list.push(id)
+        this.touches_list = this.touches_list.filter((touch, idx, arr) => {
+            return !(touch.id == arr[arr.length - 1] || touch == arr[arr.length - 1])
+        })
+    }
+
+    clear_touches_list() {
+
+    }
+}
+
 //const init.
 const bg = new Sprite({
     position: {
@@ -105,6 +157,8 @@ const bg = new Sprite({
 })
 
 const mouse = new Mouse()
+
+const touches = new Touches()
 
 // function definition
 function clean() {
@@ -151,7 +205,7 @@ function animate() {
     bg.draw()
 }
 
-function mouseDown_handler (e) {
+function mouseDown_handler(e) {
     mouse.pressed = true
     mouse.pres_pos = {
         x: e.clientX,
@@ -162,19 +216,19 @@ function mouseDown_handler (e) {
     console.log("background", bg.position, bg.scale)
 }
 
-function mouseUp_handler () {
+function mouseUp_handler() {
     mouse.pressed = false
-    // console.log(mouse.pressed)
+    console.log(mouse.pressed)
 }
 
-function mouseMove_handler (e) {
+function mouseMove_handler(e) {
     mouse.curr_pos = {
         x: e.clientX,
         y: e.clientY - NAV_HEIGHT
     }
 }
 
-function scroll_handler (e) {
+function scroll_handler(e) {
     mouse.scrolling = true
     mouse.curr_pos = {
         x: e.clientX,
@@ -189,24 +243,65 @@ function scroll_handler (e) {
     }
 }
 
+// zoom in when 2 touches are present
+function updateTouch(e) {
+    touches.forEach((touch) => {
+        if (touch.id == e.pointerId) {
+            touch.position = {
+                x: e.clientX,
+                y: e.clientY
+            }
+            console.log("MOVED ID:", touch.id, "position", touch.position)
+        }
+    })
+}
+
 // event listen to mouse user
 // window.addEventListener('mousedown', mouseDown_handler)
 // window.addEventListener('mousemove', mouseMove_handler)
 // window.addEventListener('mouseup', mouseUp_handler)
 
 //event listener to pointer event
-// window.addEventListener('pointerdown', mouseDown_handler)
 canvas.addEventListener('pointerdown', (e) => {
-    console.log(e.pointerType)
     if (e.pointerType == "mouse") {
         mouseDown_handler(e)
     } else {
+        console.log("touch Down")
+        addTouch(e)
+        console.log("touches len:", touches.length, touches)
 
+        if (touches.length == 1) {
+            mouseDown_handler(e)
+        } else if (touches.length == 2) {
+            // init_distance = touches[0]+
+        }
     }
 })
-canvas.addEventListener('pointermove', mouseMove_handler)
-canvas.addEventListener('pointerup', mouseUp_handler)
+canvas.addEventListener('pointermove', (e) => {
+    if (e.pointerType == "mouse" || touches.length == 1) {
+        mouseMove_handler(e)
+    } else if (touches.length == 2) {
+        updateTouch(e)
+    }
+})
+canvas.addEventListener('pointerup', (e) => {
+    if (e.pointerType == "mouse") {
+        mouseUp_handler(e)
+    } else {
+        console.log("pointerUp!")
+            // removeById(e.pointerId) // unknow bug: pointer up can't fire sometimes... 
+        touches = [] // cancel all touch once pointer is up
+        console.log("touches len:", touches.length, touches)
+    }
+    if (touches.length == 0) {
+        mouseUp_handler()
+    }
+})
 canvas.addEventListener("wheel", scroll_handler)
+canvas.addEventListener('pointercancle', () => {
+    touches = []
+    console.log("CANCEL!!!", touches)
+})
 
 //start animate loop
 animate()
