@@ -231,6 +231,13 @@ svg {
     }
 }
 
+@media (max-width: 530px) {
+    .bottom {
+        top: auto;
+        bottom: 0dvh;
+    }
+}
+
 .hero1 {
     padding-top: var(--nav-height);
     padding-bottom: 121px;
