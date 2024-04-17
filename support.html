@@ -11,7 +11,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Noto+Sans+HK:wght@100..900&display=swap" rel="stylesheet">
     
-    <!-- <script defer src="./app.js"></script> -->
+    <script defer src="https://unpkg.com/swup@4"></script>
+    <script defer src="animation.js"></script>
 </head>
 <body>
     <!-- NAV -->
@@ -46,20 +47,22 @@
             </ul> 
     </nav>
 
-    <!-- Section 1 -->
-    <div class="page-top">
-        <div class="top-title">
-            我們需要你的支持(錢)
+    <main id="swup" class="transition-fade">
+        <!-- Section 1 -->
+        <div class="page-top">
+            <div class="top-title">
+                我們需要你的支持(錢)
+            </div>
         </div>
-    </div>
-
-    <!-- QR code -->
-    <div class="center">
-        <img class="image" src="./img/never_gonna_qrcode.png" alt="">
-    </div>
-
-
-    <!-- Footer -->
+    
+        <!-- QR code -->
+        <div class="center">
+            <img class="image" src="./img/never_gonna_qrcode.png" alt="">
+        </div>
+    
+    
+        <!-- Footer -->
+    </main>
 
 </body>
 </html>
